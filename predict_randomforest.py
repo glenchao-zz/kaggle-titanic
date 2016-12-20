@@ -11,7 +11,7 @@ import csv as csv
 
 def prepareData(filePath):
     df = pd.read_csv(filePath, header=0)
-    passengerId = df["PassengerId"]
+
     # create "Gender" from "Sex"
     df["Gender"] = df["Sex"].map({"female": 0, "male": 1}).astype(int)
 
@@ -24,10 +24,9 @@ def prepareData(filePath):
 
     for i in range(0, 2):
         for j in range(0, 3):
-            df.loc[(df["Age"].isnull()) & (df["Gender"] == i) & (df["Pclass"] == j+1), "AgeFill"] \
-                = median_ages[i, j]
+            df.loc[(df["Age"].isnull()) & (df["Gender"] == i) & (df["Pclass"] == j+1), "AgeFill"] = median_ages[i, j]
 
-    df[df.Fare.isnull()] = df.Fare.median()
+    df.loc[df.Fare.isnull(), "Fare"] = df.Fare.median()
 
     # create "AgeIsNull" to track entries where age is null
     df["AgeIsNull"] = pd.isnull(df["Age"]).astype(int)
@@ -46,9 +45,6 @@ def prepareData(filePath):
     # drop "Age" since it has na values
     df = df.drop(['Age'], axis=1)
 
-    # werid bug in pandas dataframe.drop where it convert int64 to float64
-    # and 1044 converts to a weird number... too lazy to dig deeper
-    df["PassengerId"] = passengerId
     # convert panda dataframe to numpy arrays
     return df.values
 
