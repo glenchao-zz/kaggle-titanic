@@ -51,7 +51,8 @@ def prepareData(filePath):
 train_data = prepareData("train.csv")
 test_data = prepareData("test.csv")
 
-forest = RandomForestClassifier(n_estimators = 100)
+# try with params from http://ahmedbesbes.com/how-to-score-08134-in-titanic-kaggle-challenge.html
+forest = RandomForestClassifier(n_estimators = 210, max_depth=4, criterion='gini')
 forest = forest.fit(train_data[0::,2::],train_data[0::,1])
 output = forest.predict(test_data[0::,1::])
 
