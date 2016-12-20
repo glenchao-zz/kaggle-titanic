@@ -1,3 +1,4 @@
+# python 2
 # https://www.kaggle.com/c/titanic/details/getting-started-with-python
 
 import csv as csv
