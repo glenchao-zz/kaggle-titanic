@@ -27,6 +27,8 @@ def prepareData(filePath):
             df.loc[(df["Age"].isnull()) & (df["Gender"] == i) & (df["Pclass"] == j+1), "AgeFill"] \
                 = median_ages[i, j]
 
+    df[df.Fare.isnull()] = df.Fare.median()
+
     # create "AgeIsNull" to track entries where age is null
     df["AgeIsNull"] = pd.isnull(df["Age"]).astype(int)
 
@@ -43,7 +45,6 @@ def prepareData(filePath):
 
     # drop "Age" since it has na values
     df = df.drop(['Age'], axis=1)
-    df = df.dropna()
 
     # convert panda dataframe to numpy arrays
     return df.values
