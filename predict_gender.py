@@ -1,5 +1,4 @@
 import csv as csv
-import numpy as np
 
 ### OPEN FILES ###
 # open file
