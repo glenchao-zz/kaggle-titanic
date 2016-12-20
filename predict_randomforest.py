@@ -11,7 +11,7 @@ import csv as csv
 
 def prepareData(filePath):
     df = pd.read_csv(filePath, header=0)
-
+    passengerId = df["PassengerId"]
     # create "Gender" from "Sex"
     df["Gender"] = df["Sex"].map({"female": 0, "male": 1}).astype(int)
 
@@ -46,6 +46,9 @@ def prepareData(filePath):
     # drop "Age" since it has na values
     df = df.drop(['Age'], axis=1)
 
+    # werid bug in pandas dataframe.drop where it convert int64 to float64
+    # and 1044 converts to a weird number... too lazy to dig deeper
+    df["PassengerId"] = passengerId
     # convert panda dataframe to numpy arrays
     return df.values
 
